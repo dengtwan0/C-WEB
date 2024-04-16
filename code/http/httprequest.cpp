@@ -271,7 +271,6 @@ bool HttpRequest::UserVerify(const std::string &name, const std::string &pwd, bo
     while(MYSQL_ROW row = mysql_fetch_row(res)) {
         LOG_DEBUG("MYSQL ROW: %s %s", row[0], row[1]);
         std::string password(row[1]);
-        /* 注册行为 且 用户名未被使用*/
         if(isLogin) {
             if(pwd == password) { flag = true; }
             else {
