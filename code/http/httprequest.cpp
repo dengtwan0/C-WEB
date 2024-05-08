@@ -57,7 +57,7 @@ HTTP_CODE HttpRequest::parse(Buffer &buffer) {
                     check_state_ = FINISH;   // 提前结束
                 }
                 break;
-            case CHECK_CONTENT: // 消息体前不是有两个\r\n吗？
+            case CHECK_CONTENT: // CHECK_HEADER中会把空行读完
                 ParseBody(line);
                 break;
             default:
