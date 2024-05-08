@@ -145,8 +145,10 @@ void WebServer::AddClient(int fd, sockaddr_in *addr_ptr) {
 
 void WebServer::CloseConn(HttpConn *client) {
     LOG_INFO("Client[%d] quit!", client -> GetFd());
-    epoller_ -> DelFd(client -> GetFd());
-    client -> Close();
+    if(client -> is_init_) {
+        epoller_ -> DelFd(client -> GetFd());
+        client -> Close();
+    }
 }
 
 void WebServer::DealRead(HttpConn *client) {

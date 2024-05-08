@@ -10,12 +10,12 @@ void HeapTimer::SwapNode_(size_t i, size_t j) {
 
 void HeapTimer::siftup_(size_t i) {
     assert(i >= 0 && i < heap_.size());
-    size_t parent = (i-1) / 2;
-    while(parent >= 0) {
-        if(heap_[parent] > heap_[i]) {
-            SwapNode_(i, parent);
-            i = parent;
-            parent = (i-1)/2;
+    size_t parent = (i-1) / 2, child = i;
+    while(child > 0) {
+        if(heap_[parent] > heap_[child]) {
+            SwapNode_(child, parent);
+            child = parent;
+            parent = (child-1)/2;
         } else {
             break;
         }
@@ -80,7 +80,6 @@ void HeapTimer::Add(int id, int timeOut, const TimeoutCallBack& cb) {
     } else {
         size_t n = heap_.size();
         ref_[id] = n;
-        // 这里应该算是结构体的默认构造？
         heap_.push_back({id, Clock::now() + MS(timeOut), cb});  // 右值
         siftup_(n);
     }

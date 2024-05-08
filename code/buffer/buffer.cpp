@@ -6,7 +6,7 @@ ssize_t Buffer::ReadFd(int fd, int *Errno) {
     struct iovec iov[2];
 
     size_t writeable_bytes = WritableBytes();
-    iov[0].iov_base = BeginWrite(); // 迭代器是否可以直接用？
+    iov[0].iov_base = BeginWrite(); 
     iov[0].iov_len = writeable_bytes;
     iov[1].iov_base = buff; // 因为是一维数组，可以用buff作为首地址
     iov[1].iov_len = sizeof(buff);

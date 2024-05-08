@@ -45,12 +45,13 @@ public:
     }
 
     template<typename T>
-    bool PushTask(T &&task) {
+    bool PushTask(T &&task) { // 通用引用，它可以绑定到左值或右值，如果传入的是临时变量则为右值，可以使用移动语义避免复制
         std::lock_guard<std::mutex> locker(pool_m_ -> mtx_); // 析构时解锁
         if(pool_m_ -> tasks_.size() >= max_requests_) {
             return false;
         }
-        pool_m_ -> tasks_.emplace(std::forward<T>(task)); // 完美转发
+        // task是左值，不能直接将 task 直接传递给需要右值引用的其他函数
+        pool_m_ -> tasks_.emplace(std::forward<T>(task)); // 完美转发：保持原始参数的值类别（即是左值还是右值）转发
         pool_m_ -> cond_.notify_one(); // 唤醒一个wait
         return true;
     }

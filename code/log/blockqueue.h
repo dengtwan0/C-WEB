@@ -23,6 +23,7 @@ public:
         std::lock_guard<std::mutex> locker(mtx_);
         deque_.clear();
         condProducer_.notify_all();
+        deque_.clear();
     }
     bool empty() {
         std::lock_guard<std::mutex> locker(mtx_);

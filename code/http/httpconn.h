@@ -51,11 +51,12 @@ public:
     static bool isEt_;
     static const char* srcDir_;
     static std::atomic<int> clientCnt_;  // 原子，支持锁
+    bool is_init_ = false; // 调用init绑定client_fd后为true，析构时需要close(fd)
     
 private:
     int client_fd_;
     const struct sockaddr_in * addr_ptr_ = nullptr;
-    bool is_init_ = false; // 调用init绑定client_fd后为true，析构时需要close(fd)
+    
 
     size_t bytes_to_send_;
     int iov_cnt_ = 1;
